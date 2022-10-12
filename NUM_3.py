@@ -1,14 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 import math as m
 
 
 x = [None] * 5
-y = [None] * 4
+y = [None] * 5
 for i in range(4):
     x[i] = m.pi*np.double(input(f"Введите x{i}:"))
     y[i] = np.sin(x[i])
 x[4] = m.pi*np.double(input(f"Введите x*:"))
+y[4] = np.sin(x[4])
 
 
 def coef(x, y):
@@ -62,37 +65,33 @@ def point(func,point):
     return np.polyval(func, point)
 
 
-def graphic(XNEW,YNEW):
-    plt.plot(XNEW, YNEW)
+def plot(y1,y2,y):
+    XNEW = np.linspace(np.min(x), np.max(x), 100)
+    YNEW1 = point(y1,XNEW)
+    YNEW2 = point(y2,XNEW)
+    yi = np.sin(XNEW)
+    plt.plot(XNEW,YNEW1,"-",XNEW,YNEW2,"-",XNEW,yi)
     plt.grid(True)
     plt.show()
 
-def plot(func):
-    XNEW = np.linspace(np.min(x),np.max(x),100)
-    YNEW = point(func, XNEW)
-    graphic(XNEW,YNEW)
 
+if __name__ == '__main__':
+    test1 = L4(x)
+    test2 = P4(coef(x,y) ,x)
+    print("P4(x) =", test2[0], "*x^3 +", test2[1], "*x^2 +", test2[2], "*x +", test2[3])
+    print("L4(x) =", test1[0], "*x^3 +", test1[1], "*x^2 +", test1[2], "*x +", test1[3])
+    test3 = point(test2, x[4])
+    test4 = point(test1, x[4])
+    print("sin(", x[4], ") =", y[4])
+    print("P4(",  x[4], ") =", test3)
+    print("L4(",  x[4], ") =", test4)
+    delta_arr = [None]*4
+    for i in range(4):
+        delta_arr[i] = abs(test1[i]-test2[i])
+    print("delta_P4:", abs(y[4]-test4))
+    print("delta_L4:", abs(y[4]-test3))
+    print("delta_arr:", delta_arr)
 
-
-test1 = L4(x)
-test2 = P4(coef(x,y) ,x)
-print("P4(x) =", test2[0], "*x^3 +", test2[1], "*x^2 +", test2[2], "*x +", test2[3])
-print("L4(x) =", test1[0], "*x^3 +", test1[1], "*x^2 +", test1[2], "*x +", test1[3])
-test3 = point(test2,x[4])
-test4 = point(test1,x[4])
-sin = np.sin(x[4])
-print("sin(", x[4], ") =", sin)
-print("P4(",  x[4], ") =", test3)
-print("L4(",  x[4], ") =", test4)
-delta_arr = [None]*4
-for i in range(4):
-    delta_arr[i] = abs(test1[i]-test2[i])
-print("delta_P4:", abs(sin-test4))
-print("delta_L4:", abs(sin-test3))
-print("delta_arr:", delta_arr)
-plot(test1)
-plot(test2)
-xi = np.linspace(np.min(x),np.max(x),100)
-graphic(xi,np.sin(xi))
+    plot(test1,test2,y)
 
 
