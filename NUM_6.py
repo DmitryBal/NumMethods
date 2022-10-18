@@ -19,7 +19,7 @@ if __name__ == '__main__':
     x[0] = a
     y[0] = f(x[0])
     for i in range(1, n):
-        x[i] = x[i - 1] + 1 / 2
+        x[i] = x[i - 1] + h
         y[i] = f(x[i])
     f = h * ((y[0] + y[n - 1]) / 2 + S(1, n - 1))
     f1 = h / 3 * ((y[0] + y[n - 1]) + 4 * (y[1] + y[3]) + 2 * y[2])
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     sum = 0
     h1 = (b - a) / n
     for i in range(n):
-        j = -1 + h1 * (0.5 + i)
+        j = -1 + h1 * (h + i)
         sum += j / (2 * j + 5)
     f_middle = h1 * sum
     print("Метод Трапеции:", f)
