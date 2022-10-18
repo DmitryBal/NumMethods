@@ -23,10 +23,15 @@ def point(func, point):
     return np.polyval(func, point)
 
 
-def plot(f,x,y):
+def plot(f1,f2,f3,x,y):
     XNEW = np.linspace(np.min(x), np.max(x), 100)
-    YNEW1 = point(f, XNEW)
-    plt.plot(XNEW, YNEW1)
+    YNEW1 = point(f1, XNEW)
+    YNEW2 = point(f2,XNEW)
+    YNEW3 = point(f3,XNEW)
+    plt.plot(XNEW, YNEW1,label='Многочлен 1-ой степени:')
+    plt.plot(XNEW, YNEW2,label='Многочлен 2-ой степени:')
+    plt.plot(XNEW, YNEW3,label='Многочлен 3-ей степени:')
+    plt.legend()
     for i in range(6):
         plt.plot(x[i], y[i], 'ro')
     plt.grid(True)
@@ -34,10 +39,7 @@ def plot(f,x,y):
 
 
 def mnk(x,y,f,len):
-    p = [0]*len
-    for i in range(len):
-        p[i] = y[i] - point(f,x[i])
-    return sum(np.power(p,2))
+    return sum(np.power(y - point(f,x),2))
 
 
 if __name__ == '__main__':
@@ -54,9 +56,5 @@ if __name__ == '__main__':
     print("Квадратичное отклонение 1ой степени:", mnk(x, y, f1, 6))
     print("Квадратичное отклонение 2ой степени:", mnk(x, y, f2, 6))
     print("Квадратичное отклонение 3ей степени:", mnk(x, y, f3, 6))
-    plt.title("Многочлен 1-ой степени:")
-    plot(f1,x,y)
-    plt.title("Многочлен 2-ой степени:")
-    plot(f2,x,y)
-    plt.title("Многочлен 3-ей степени:")
-    plot(f3,x,y)
+    plot(f1,f2,f3,x,y)
+
